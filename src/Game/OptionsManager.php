@@ -12,6 +12,7 @@ class OptionName
     const role_lycan = 'role_lycan';
     const role_beholder = 'role_beholder';
     const role_bodyguard = 'role_bodyguard';
+    const role_minion = 'role_minion';
 }
 
 class OptionType
@@ -59,6 +60,7 @@ class OptionsManager
         $this->options[] = new Option(OptionName::role_lycan, OptionType::Bool, "on", "Use Lycan role in random games.");
         $this->options[] = new Option(OptionName::role_beholder, OptionType::Bool, "on", "Use Beholder role in random games.");
         $this->options[] = new Option(OptionName::role_bodyguard, OptionType::Bool, "on", "Use Bodyguard role in random games.");
+        $this->options[] = new Option(OptionName::role_minion, OptionType::Bool, "on", "Use Minion role in random games.");
 
         $this->loadOptions();
     }

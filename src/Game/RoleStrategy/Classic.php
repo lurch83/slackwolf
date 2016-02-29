@@ -59,6 +59,11 @@ class Classic implements RoleStrategyInterface
                 $possibleOptionalRoles[] = Role::BODYGUARD;
                 $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Bodyguard";
             }
+            if ($optionsManager->getOptionValue(OptionName::role_minion)){
+                $optionalRoles[Role::MINION] = 1;
+                $possibleOptionalRoles[] = Role::MINION;
+                $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Minion";
+            }
         }
 
         shuffle($possibleOptionalRoles);

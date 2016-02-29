@@ -349,6 +349,11 @@ class GameManager
 
                         $client->send("The seer is: {$seers}", $dmc);
                     }
+                    
+                    if ($player->role == Role::MINION) {
+                        $werewolves = PlayerListFormatter::format($game->getPlayersOfRole(Role::WEREWOLF));
+                        $client->send("The werewolves are: {$werewolves}", $dmc);
+                    }
                 });
         }
 
