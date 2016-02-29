@@ -167,7 +167,7 @@ class SeeCommand extends Command
                 continue;
             }
 
-            if ($player->role == Role::WEREWOLF || $player->role == Role::LYCAN || $player->role == Role::MINION) {
+            if ($player->role == Role::WEREWOLF || $player->role == Role::LYCAN) {
                 $msg = "@{$player->getUsername()} is on the side of the Werewolves.";
             } else {
                 $msg = "@{$player->getUsername()} is on the side of the Villagers.";
