@@ -244,7 +244,7 @@ class Game
 
     public function isOver()
     {
-        $numWerewolves = $this->getNumRole(Role::WEREWOLF);
+        $numWerewolves = $this->getNumRole(Role::WEREWOLF) + $this->getNumRole(Role::MINION);
         $numTanner = $this->getNumRole(Role::TANNER);
 
         $numGood = count($this->getLivingPlayers()) - $numWerewolves;
