@@ -11,7 +11,9 @@ class HelpCommand extends Command
         $client = $this->client;
 
         $help_msg =  "How to Play #Werewolf\r\n------------------------\r\n";
-        $help_msg .= "Werewolf is a party game of social deduction. Players are private messaged their role when the game begins. ";
+        $help_msg .= "Werewolf is a party game of social deduction. Players are private messaged their role when the game begins.\r\n ";
+        $help_msg .= "This version has been hacked up by the online customer service team \r\n";
+        $help_msg .= "Feel free to contribute on Github - https://github.com/lurch83/slackwolf \r\n";
         $help_msg .= "If you are a Villager, you must find out who the werewolves are based on their voting and your social deduction skills. ";
         $help_msg .= "if you are a Werewolf, you must pretend you are not a werewolf by lying as best as you can.\r\n";
         $help_msg .= "The game takes place over several Days and Nights. Each Day all players vote on a player to lynch. The player with the most votes is lynched. If there is a tie, the tied players are lynched. ";
@@ -42,7 +44,7 @@ class HelpCommand extends Command
         $this->client->getDMByUserId($this->userId)->then(function(DirectMessageChannel $dm) use ($client, $help_msg) {
             $client->send($help_msg, $dm);
         });
-        
+
         if ($this->channel[0] != 'D') {
             $client->getChannelGroupOrDMByID($this->channel)
                ->then(function (ChannelInterface $channel) use ($client) {
