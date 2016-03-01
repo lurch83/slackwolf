@@ -26,18 +26,18 @@ class Classic implements RoleStrategyInterface
         $num_minion = 0;
         $num_seer = $optionsManager->getOptionValue(OptionName::role_seer) ? 1 : 0;
         $optionalRoleListMsg = "";
-        
+
         if ($num_evil >= 2
             && $optionsManager->getOptionValue(OptionName::role_minion)) {
                 $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Minion";
-                
+
                 if(rand(0,1) == 1) {
                     // Add minion 50% of the time
                     $num_minion = 1;
                 }
-            }
         }
-        
+
+
         $requiredRoles = [
             Role::SEER => $num_seer,
             Role::WEREWOLF => $num_evil - $num_minion
@@ -46,7 +46,7 @@ class Classic implements RoleStrategyInterface
         $optionalRoles = [
             Role::VILLAGER => max($num_good - $num_seer, 0)
         ];
-        
+
         $this->roleListMsg = "Required: [".($num_seer > 0 ? "Seer, " : "")."Werewolf, Villager]";
 
         $possibleOptionalRoles = [Role::VILLAGER];
@@ -61,7 +61,7 @@ class Classic implements RoleStrategyInterface
                 $possibleOptionalRoles[] = Role::LYCAN;
                 $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Lycan";
             }
-            if ($num_seer > 0 
+            if ($num_seer > 0
                 && $optionsManager->getOptionValue(OptionName::role_beholder)){
                 $optionalRoles[Role::BEHOLDER] = 1;
                 $possibleOptionalRoles[] = Role::BEHOLDER;
