@@ -23,10 +23,24 @@ class Classic implements RoleStrategyInterface
         $num_players = count($players); // 6
         $num_evil = floor($num_players / 3); // 2
         $num_good = $num_players - $num_evil; // 4
+        $num_minion = 0;
         $num_seer = $optionsManager->getOptionValue(OptionName::role_seer) ? 1 : 0;
+        $optionalRoleListMsg = "";
+        
+        if ($num_evil >= 2
+            && $optionsManager->getOptionValue(OptionName::role_minion)) {
+                $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Minion";
+                
+                if(rand(0,1) == 1) {
+                    // Add minion 50% of the time
+                    $num_minion = 1;
+                }
+            }
+        }
+        
         $requiredRoles = [
             Role::SEER => $num_seer,
-            Role::WEREWOLF => $num_evil
+            Role::WEREWOLF => $num_evil - $num_minion
         ];
 
         $optionalRoles = [
@@ -36,7 +50,6 @@ class Classic implements RoleStrategyInterface
         $this->roleListMsg = "Required: [".($num_seer > 0 ? "Seer, " : "")."Werewolf, Villager]";
 
         $possibleOptionalRoles = [Role::VILLAGER];
-        $optionalRoleListMsg = "";
         if ($num_players >= 6) {
             if ($optionsManager->getOptionValue(OptionName::role_tanner)){
                 $optionalRoles[Role::TANNER] = 1;
@@ -58,11 +71,6 @@ class Classic implements RoleStrategyInterface
                 $optionalRoles[Role::BODYGUARD] = 1;
                 $possibleOptionalRoles[] = Role::BODYGUARD;
                 $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Bodyguard";
-            }
-            if ($optionsManager->getOptionValue(OptionName::role_minion)){
-                $optionalRoles[Role::MINION] = 1;
-                $possibleOptionalRoles[] = Role::MINION;
-                $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Minion";
             }
         }
 
