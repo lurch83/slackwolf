@@ -317,7 +317,7 @@ class GameManager
             }
 
             $lynchMsg .= implode(', ', $lynchedNames). "\r\n";
-            $lynchMsg .= $princeMsg
+            $lynchMsg .= $princeMsg;
         }
         $this->sendMessageToChannel($game,$lynchMsg);
 
