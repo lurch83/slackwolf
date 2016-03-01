@@ -13,6 +13,7 @@ class OptionName
     const role_beholder = 'role_beholder';
     const role_bodyguard = 'role_bodyguard';
     const role_minion = 'role_minion';
+    const role_prince = 'role_prince';
 }
 
 class OptionType
@@ -50,7 +51,7 @@ class OptionsManager
     const optionsFileName = "options.json";
     /** @var Option[] $options */
     public $options = [];
-    
+
     public function __construct()
     {
         $this->options[] = new Option(OptionName::changevote, OptionType::Bool, "on", "When enabled votes can be changed until the final vote is cast.");
@@ -61,12 +62,13 @@ class OptionsManager
         $this->options[] = new Option(OptionName::role_beholder, OptionType::Bool, "on", "Use Beholder role in random games.");
         $this->options[] = new Option(OptionName::role_bodyguard, OptionType::Bool, "on", "Use Bodyguard role in random games.");
         $this->options[] = new Option(OptionName::role_minion, OptionType::Bool, "on", "Use Minion role in random games.");
+        $this->options[] = new Option(OptionName::role_prince, OptionType::Bool, "on", "Use Prince role in random games.");
 
         $this->loadOptions();
     }
-    
+
     public function loadOptions()
-    {        
+    {
         /*
          * Load existing options
          */
@@ -101,7 +103,7 @@ class OptionsManager
         if (count($args) < 2) { return; } //minimum name/value required
         /** @var Option $option */
         $option = null;
-        
+
         foreach ($this->options as $searchOption)
         {
             /** @var Option $searchOption */
@@ -110,7 +112,7 @@ class OptionsManager
                 break;
             }
         }
-        
+
         if ($option==null) { return; }
         $newValue = $option->value;
         $setValue = $args[1];
@@ -128,7 +130,7 @@ class OptionsManager
           case OptionType::StringArray:
           case OptionType::UserArray:
               if (count($args) < 3) { return; } //name add|remove value, all required
-              if ($option->optionType == OptionType::UserArray) 
+              if ($option->optionType == OptionType::UserArray)
               {
                   $this->client->getChannelGroupOrDMByID($this->channel)
                     ->then(function (Channel $channel) {
@@ -155,17 +157,17 @@ class OptionsManager
               break;
         }
         $option->value = $newValue;
-        
-        if ($doSave) {                   
+
+        if ($doSave) {
             $this->saveOptions();
         }
     }
-    
+
     public function getOptionValue($optionName)
     {
         /** @var Option $option */
         $option = null;
-        
+
         foreach ($this->options as $searchOption)
         {
             /** @var Option $searchOption */
@@ -174,7 +176,7 @@ class OptionsManager
                 break;
             }
         }
-        
+
         return ($option==null ? null : $option->value);
     }
 }

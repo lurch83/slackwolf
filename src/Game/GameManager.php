@@ -21,14 +21,14 @@ class GameManager
     private $commandBindings;
     private $client;
     public $optionsManager;
-    
+
     public function __construct(RealTimeClient $client, array $commandBindings)
     {
         $this->commandBindings = $commandBindings;
         $this->client = $client;
         $this->optionsManager = new OptionsManager();
     }
-    
+
     public function input(Message $message)
     {
         $input = $message->getText();
@@ -88,7 +88,7 @@ class GameManager
 
         return true;
     }
-    
+
     public function sendMessageToChannel($game, $msg)
     {
         $client = $this->client;
@@ -189,7 +189,7 @@ class GameManager
         $game->assignRoles();
         $this->changeGameState($id, GameState::FIRST_NIGHT);
     }
-    
+
     public function endGame($id, $enderUserId = null)
     {
         $game = $this->getGame($id);
@@ -265,7 +265,7 @@ class GameManager
         $voteMsg = VoteSummaryFormatter::format($game);
 
         $this->sendMessageToChannel($game, $voteMsg);
-        
+
         if ( ! $game->votingFinished()) {
             return;
         }
@@ -300,15 +300,24 @@ class GameManager
             $lynchMsg .= ":peace_symbol: The townsfolk decided not to lynch anybody today.";
         }else {
             $lynchMsg .= ":newspaper: With pitchforks in hand, the townsfolk killed: ";
-
+            $princeMsg = "";
             $lynchedNames = [];
             foreach ($players_to_be_lynched as $player_id) {
                 $player = $game->getPlayerById($player_id);
                 $lynchedNames[] = "@{$player->getUsername()} ({$player->role})";
-                $game->killPlayer($player_id);
+                if($player->role != ROLE::PRINCE) {
+                  $game->killPlayer($player_id);
+                } else {
+                  if(count($players_to_be_lynched) == 1){
+                    $princeMsg = "Nobody!\r\n";
+                  }
+                  $princeMsg .= "The townsfolk decided to free @{$player->getUsername()} ({$player->role}) as he is a Prince :crown:";
+                }
+
             }
 
             $lynchMsg .= implode(', ', $lynchedNames). "\r\n";
+            $lynchMsg .= $princeMsg
         }
         $this->sendMessageToChannel($game,$lynchMsg);
 
@@ -349,7 +358,7 @@ class GameManager
 
                         $client->send("The seer is: {$seers}", $dmc);
                     }
-                    
+
                     if ($player->role == Role::MINION) {
                         $werewolves = PlayerListFormatter::format($game->getPlayersOfRole(Role::WEREWOLF));
                         $client->send("The werewolves are: {$werewolves}", $dmc);
@@ -369,9 +378,9 @@ class GameManager
             $msg .= " The game will begin when the Seer chooses someone.";
         }
         $this->sendMessageToChannel($game, $msg);
-        
+
         if (!$this->optionsManager->getOptionValue(OptionName::role_seer)) {
-            $this->changeGameState($game->getId(), GameState::NIGHT);        
+            $this->changeGameState($game->getId(), GameState::NIGHT);
         }
     }
 
