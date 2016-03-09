@@ -10,4 +10,5 @@ class Role
     const LYCAN = "Lycan";
     const BEHOLDER = "Beholder";
     const MINION = "Minion";
+    //const WOLF_MAN = "Wolfman"; /*  Opposite of Lycan */
 }

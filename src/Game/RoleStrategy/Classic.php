@@ -29,13 +29,14 @@ class Classic implements RoleStrategyInterface
         
         if ($num_evil >= 2
             && $optionsManager->getOptionValue(OptionName::role_minion)) {
+                
                 $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Minion";
                 $shouldAddMinion = rand(1,10) >= 4; // Add minion 60% of the time
                 echo "maybe adding the minion\n? ".$shouldAddMinion;
+                
                 if($shouldAddMinion) {
                     $num_minion = 1;
-                }
-            }
+               }
         }
         
         $requiredRoles = [

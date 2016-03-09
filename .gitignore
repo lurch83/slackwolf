@@ -1,5 +1,6 @@
 /vendor/
 .env
+.env.*
 .idea
 /nbproject/private/
 /options.json
@@ -7,3 +8,4 @@
 /nbproject/project.properties
 /nbproject/project.xml
 cacert.pem
+*.zip
